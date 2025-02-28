@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма Вводу Даних</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Форма Вводу Даних</h1>
+        <form id="dataForm">
+            <label for="post">Пост:</label>
+            <input type="text" id="post" name="post">
+
+            <label for="settlement">Н.п:</label>
+            <select id="settlement" name="settlement">
+                <option value="с.Новоселівка">с.Новоселівка</option>
+                <option value="с.Аули">с.Аули</option>
+                <option value="с.Степове">с.Степове</option>
+            </select>
+
+            <label for="time">Час:</label>
+            <input type="time" id="time" name="time">
+
+            <label for="target">Ц:</label>
+            <input type="text" id="target" name="target">
+
+            <label for="azimuth">А:</label>
+            <input type="text" id="azimuth" name="azimuth">
+
+            <label for="course">К:</label>
+            <input type="text" id="course" name="course">
+
+            <label for="distance">Д:</label>
+            <input type="text" id="distance" name="distance">
+
+            <label for="altitude">В:</label>
+            <input type="text" id="altitude" name="altitude">
+
+            <label for="comments">Коментарі:</label>
+            <select id="comments" name="comments">
+                <option value="Ні візуально, ні акустично не спостерігали.">Ні візуально, ні акустично не спостерігали.</option>
+                <option value="Зброя не застосовувалась.">Зброя не застосовувалась.</option>
+                <option value="Зброя не застосовувалась, заборонений сектор.">Зброя не застосовувалась, заборонений сектор.</option>
+            </select>
+
+            <div class="button-group">
+                <button type="button" onclick="copyData()">Копіювати</button>
+                <button type="button" onclick="shareData()">Поділитися</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function copyData() {
+            let data = "";
+            const fields = ["post", "settlement", "time", "target", "azimuth", "course", "distance", "altitude"];
+            
+            fields.forEach(id => {
+                const field = document.getElementById(id);
+                if (field.value) {
+                    data += `${field.previousElementSibling.innerText} ${field.value}\n`;
+                }
+            });
+
+            if (data) {
+                navigator.clipboard.writeText(data);
+                alert("Дані скопійовано!");
+            } else {
+                alert("Заповніть хоча б одне поле для копіювання.");
+            }
+        }
+
+        function shareData() {
+            let data = "";
+            const fields = ["post", "settlement", "time", "target", "azimuth", "course", "distance", "altitude"];
+
+            fields.forEach(id => {
+                const field = document.getElementById(id);
+                if (field.value) {
+                    data += `${field.previousElementSibling.innerText} ${field.value}\n`;
+                }
+            });
+
+            if (navigator.share) {
+                navigator.share({ text: data }).catch(() => alert("Помилка під час надсилання"));
+            } else {
+                alert("Ваш браузер не підтримує функцію поділу.");
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ccc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            background: #333;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</body>
+</html>
