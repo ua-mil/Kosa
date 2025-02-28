@@ -20,10 +20,10 @@
                 <option value="с.Степове">с.Степове</option>
             </select>
 
-            <label for="time">Час:</label>
+            <label for="time">Ч:</label>
             <input type="time" id="time" name="time">
-
-            <label for="target">Ц:</label>
+            
+            <label for="target">Ціль:</label>
             <input type="text" id="target" name="target">
 
             <label for="azimuth">А:</label>
@@ -38,6 +38,7 @@
             <label for="altitude">В:</label>
             <input type="text" id="altitude" name="altitude">
 
+            <!-- Заголовок "Коментарі" НЕ будет копироваться -->
             <label for="comments">Коментарі:</label>
             <select id="comments" name="comments">
                 <option value="Ні візуально, ні акустично не спостерігали.">Ні візуально, ні акустично не спостерігали.</option>
@@ -56,13 +57,19 @@
         function copyData() {
             let data = "";
             const fields = ["post", "settlement", "time", "target", "azimuth", "course", "distance", "altitude"];
-            
+
             fields.forEach(id => {
                 const field = document.getElementById(id);
                 if (field.value) {
                     data += `${field.previousElementSibling.innerText} ${field.value}\n`;
                 }
             });
+
+            // Добавляем только значение "Коментарі", без заголовка
+            const comments = document.getElementById("comments").value;
+            if (comments) {
+                data += `${comments}\n`;
+            }
 
             if (data) {
                 navigator.clipboard.writeText(data);
@@ -82,6 +89,12 @@
                     data += `${field.previousElementSibling.innerText} ${field.value}\n`;
                 }
             });
+
+            // Добавляем только значение "Коментарі", без заголовка
+            const comments = document.getElementById("comments").value;
+            if (comments) {
+                data += `${comments}\n`;
+            }
 
             if (navigator.share) {
                 navigator.share({ text: data }).catch(() => alert("Помилка під час надсилання"));
