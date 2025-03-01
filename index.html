@@ -33,7 +33,7 @@
             <label for="course">К:</label>
             <input type="text" id="course" name="course">
 
-            <label for="distance">Дальність:</label>
+            <label for="distance">Д:</label>
             <input type="text" id="distance" name="distance">
 
             <label for="altitude">Висота:</label>
@@ -73,9 +73,9 @@
 
             const fields = [
                 { id: "target", label: "Ціль" },
-                { id: "azimuth", label: "Азимут" },
-                { id: "course", label: "Курс" },
-                { id: "distance", label: "Дальність" },
+                { id: "azimuth", label: "Аз" },
+                { id: "course", label: "К" },
+                { id: "distance", label: "Д" },
                 { id: "altitude", label: "Висота" }
             ];
 
@@ -108,14 +108,14 @@
             const post = document.getElementById("post").value.trim();
             const settlement = document.getElementById("settlement").value;
             if (post || settlement) {
-                data += `${post}, ${settlement}\n`;
+                data += `${post} ${settlement}\n`;
             }
 
             const fields = [
                 { id: "target", label: "Ціль" },
-                { id: "azimuth", label: "Азимут" },
-                { id: "course", label: "Курс" },
-                { id: "distance", label: "Дальність" },
+                { id: "azimuth", label: "Аз" },
+                { id: "course", label: "К" },
+                { id: "distance", label: "Д" },
                 { id: "altitude", label: "Висота" }
             ];
 
