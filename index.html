@@ -3,47 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма Вводу Даних</title>
+    <title>Форма Введення Даних</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Форма Вводу Даних</h1>
+        <h1>Форма Введення Даних</h1>
         <form id="dataForm">
+            <label for="time">Час:</label>
+            <input type="time" id="time" name="time">
+
             <label for="post">Пост:</label>
             <input type="text" id="post" name="post">
 
-            <label for="settlement">Н.п:</label>
+            <label for="settlement">Населений пункт:</label>
             <select id="settlement" name="settlement">
-                <option value="с.Новоселівка">с.Новоселівка</option>
-                <option value="с.Аули">с.Аули</option>
-                <option value="с.Степове">с.Степове</option>
+                <option value="">Виберіть населений пункт</option>
+                <option value="с. Новоселівка">с.Новоселівка</option>
+                <option value="смт. Аули">смт.Аули</option>
+                <option value="с. Степове">с.Степове</option>
             </select>
 
-            <label for="time">Ч:</label>
-            <input type="time" id="time" name="time">
-            
             <label for="target">Ціль:</label>
             <input type="text" id="target" name="target">
 
-            <label for="azimuth">А:</label>
+            <label for="azimuth">Аз:</label>
             <input type="text" id="azimuth" name="azimuth">
 
             <label for="course">К:</label>
             <input type="text" id="course" name="course">
 
-            <label for="distance">Д:</label>
+            <label for="distance">Дальність:</label>
             <input type="text" id="distance" name="distance">
 
-            <label for="altitude">В:</label>
+            <label for="altitude">Висота:</label>
             <input type="text" id="altitude" name="altitude">
 
-            <!-- Заголовок "Коментарі" НЕ будет копироваться -->
             <label for="comments">Коментарі:</label>
             <select id="comments" name="comments">
+                <option value="">Оберіть коментар</option>
                 <option value="Ні візуально, ні акустично не спостерігали.">Ні візуально, ні акустично не спостерігали.</option>
-                <option value="Візуально не спостерігали,зброя не застосовувалась.">Візуально не спостерігали, зброя не застосовувалась.</option>
+                <option value="Зброя не застосовувалась.">Зброя не застосовувалась.</option>
                 <option value="Зброя не застосовувалась, заборонений сектор.">Зброя не застосовувалась, заборонений сектор.</option>
+                <option value="Виходи трасерів.">Виходи трасерів.</option>
+                <option value="Вибух.">Вибух.</option>
+                <option value="Вибух на землі.">Вибух на землі.</option>
+                <option value="Вибух в небі.">Вибух в небі.</option>
             </select>
 
             <div class="button-group">
@@ -56,22 +61,37 @@
     <script>
         function copyData() {
             let data = "";
-            const fields = ["post", "settlement", "time", "target", "azimuth", "course", "distance", "altitude"];
 
-            fields.forEach(id => {
-                const field = document.getElementById(id);
-                if (field.value) {
-                    data += `${field.previousElementSibling.innerText} ${field.value}\n`;
+            const time = document.getElementById("time").value;
+            if (time) data += `${time}\n`;
+
+            const post = document.getElementById("post").value.trim();
+            const settlement = document.getElementById("settlement").value;
+            if (post || settlement) {
+                data += `${post}, ${settlement}\n`;
+            }
+
+            const fields = [
+                { id: "target", label: "Ціль" },
+                { id: "azimuth", label: "Азимут" },
+                { id: "course", label: "Курс" },
+                { id: "distance", label: "Дальність" },
+                { id: "altitude", label: "Висота" }
+            ];
+
+            fields.forEach(({ id, label }) => {
+                const value = document.getElementById(id).value.trim();
+                if (value) {
+                    data += `${label}: ${value}\n`;
                 }
             });
 
-            // Добавляем только значение "Коментарі", без заголовка
             const comments = document.getElementById("comments").value;
             if (comments) {
                 data += `${comments}\n`;
             }
 
-            if (data) {
+            if (data.trim()) {
                 navigator.clipboard.writeText(data);
                 alert("Дані скопійовано!");
             } else {
@@ -81,25 +101,44 @@
 
         function shareData() {
             let data = "";
-            const fields = ["post", "settlement", "time", "target", "azimuth", "course", "distance", "altitude"];
 
-            fields.forEach(id => {
-                const field = document.getElementById(id);
-                if (field.value) {
-                    data += `${field.previousElementSibling.innerText} ${field.value}\n`;
+            const time = document.getElementById("time").value;
+            if (time) data += `${time}\n`;
+
+            const post = document.getElementById("post").value.trim();
+            const settlement = document.getElementById("settlement").value;
+            if (post || settlement) {
+                data += `${post}, ${settlement}\n`;
+            }
+
+            const fields = [
+                { id: "target", label: "Ціль" },
+                { id: "azimuth", label: "Азимут" },
+                { id: "course", label: "Курс" },
+                { id: "distance", label: "Дальність" },
+                { id: "altitude", label: "Висота" }
+            ];
+
+            fields.forEach(({ id, label }) => {
+                const value = document.getElementById(id).value.trim();
+                if (value) {
+                    data += `${label}: ${value}\n`;
                 }
             });
 
-            // Добавляем только значение "Коментарі", без заголовка
             const comments = document.getElementById("comments").value;
             if (comments) {
                 data += `${comments}\n`;
             }
 
-            if (navigator.share) {
-                navigator.share({ text: data }).catch(() => alert("Помилка під час надсилання"));
+            if (data.trim()) {
+                if (navigator.share) {
+                    navigator.share({ text: data }).catch(() => alert("Помилка під час надсилання"));
+                } else {
+                    alert("Ваш браузер не підтримує функцію поділу.");
+                }
             } else {
-                alert("Ваш браузер не підтримує функцію поділу.");
+                alert("Заповніть хоча б одне поле для поділу.");
             }
         }
     </script>
